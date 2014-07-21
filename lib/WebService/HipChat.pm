@@ -2,7 +2,7 @@ package WebService::HipChat;
 use Moo;
 with 'WebService::BaseClientRole';
 
-our $VERSION = '0.0001'; # VERSION
+our $VERSION = '0.0100'; # VERSION
 
 use Carp qw(croak);
 
@@ -26,6 +26,35 @@ sub get_room {
     return $self->get("/room/$room");
 }
 
+sub create_room {
+    my ($self, $data) = @_;
+    croak '$data is required' unless 'HASH' eq ref $data;
+    return $self->post("/room", $data);
+}
+
+sub update_room {
+    my ($self, $room, $data) = @_;
+    croak '$room is required' unless $room;
+    croak '$data is required' unless 'HASH' eq ref $data;
+    return $self->put("/room/$room", $data);
+}
+
+sub set_topic {
+    my ($self, $room, $topic) = @_;
+    croak '$room is required' unless $room;
+    croak '$topic is required' unless $topic;
+    if ( 'HASH' eq ref $topic ) {
+        $topic = $topic->{topic} or croak '$topic is required';
+    }
+    return $self->put("/room/$room/topic", { topic => $topic });
+}
+
+sub delete_room {
+    my ($self, $room) = @_;
+    croak '$room is required' unless $room;
+    return $self->delete("/room/$room");
+}
+
 sub send_notification {
     my ($self, $room, $data) = @_;
     croak '$room is required' unless $room;
@@ -44,6 +73,26 @@ sub create_webhook {
     croak '$room is required' unless $room;
     croak '$data is required' unless 'HASH' eq ref $data;
     return $self->post("/room/$room/webhook", $data);
+}
+
+sub get_members {
+    my ($self, $room) = @_;
+    croak '$room is required' unless $room;
+    return $self->get("/room/$room/member");
+}
+
+sub add_member {
+    my ($self, $room, $user) = @_;
+    croak '$room is required' unless $room;
+    croak '$user is required' unless $user;
+    return $self->put("/room/$room/member/$user", {});
+}
+
+sub remove_member {
+    my ($self, $room, $user) = @_;
+    croak '$room is required' unless $room;
+    croak '$user is required' unless $user;
+    return $self->delete("/room/$room/member/$user");
 }
 
 sub get_users {
@@ -90,12 +139,20 @@ WebService::HipChat
 
 =head1 VERSION
 
-version 0.0001
+version 0.0100
 
 =head1 SYNOPSIS
 
-    my $hc = WebService::HipChat->new( auth_token => 'abc' );
+    my $hc = WebService::HipChat->new(auth_token => 'abc');
     $hc->send_notification('Room42', { color => 'green', message => 'allo' });
+
+    # get paged results:
+    my $res = $hc->get_emoticons;
+    my @emoticons = @{ $res->{items} };
+    while (my $next_link = $res->{links}{next}) {
+        $res = $hc->get($next_link);
+        push @emoticons, @{ $res->{items} };
+    }
 
 =head1 DESCRIPTION
 
@@ -142,8 +199,6 @@ Example response:
 
     get_room($room)
 
-Returns the room for the given $room name.
-
 Example response:
 
     {
@@ -173,13 +228,43 @@ Example response:
       xmpp_jid => "1_general_discussion\@conf.btf.hipchat.com",
     }
 
+=head2 create_room
+
+    create_room({ name => 'monkeys' })
+
+Example response:
+
+    {
+      id => 46,
+      links => { self => "https://hipchat.com/v2/room/46" },
+    }
+
+=head2 update_room
+
+    update_room($room, {
+        is_archived         => JSON::false,
+        is_guest_accessible => JSON::false,
+        name                => "Jokes",
+        owner               => { id => 17 },
+        privacy             => "public",
+        topic               => "funny jokes",
+    });
+
+=head2 set_topic
+
+    set_topic($room, 'new topic');
+
+=head2 delete_room
+
+    delete_room($room)
+
 =head2 send_notification
 
     send_notification($room, { color => 'green', message => 'allo' });
 
 =head2 get_webhooks
 
-    get_webhooks()
+    get_webhooks($room)
 
 Example response:
 
@@ -210,6 +295,44 @@ Example response:
 =head2 send_private_msg
 
     send_private_msg($user, { message => 'allo' });
+
+=head2 get_members
+
+    get_members($room);
+
+Example response:
+
+    {
+      items => [
+        {
+          id => 73,
+          links => { self => "https://hipchat.com/v2/user/73" },
+          mention_name => "momma",
+          name => "Yo Momma",
+        },
+        {
+          id => 23,
+          links => { self => "https://hipchat.com/v2/user/23" },
+          mention_name => "jackie",
+          name => "Jackie Chan",
+        },
+      ],
+      links => { self => "https://hipchat.com/v2/room/Test/member" },
+      maxResults => 100,
+      startIndex => 0,
+    }
+
+=head2 add_member
+
+Adds a user to a room.
+
+    add_member($room, $user);
+
+=head2 remove_member
+
+Removes a user from a room.
+
+    remove_member($room, $user);
 
 =head2 get_users
 
