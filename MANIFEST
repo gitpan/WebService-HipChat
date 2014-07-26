@@ -5,6 +5,7 @@ MANIFEST
 META.yml
 Makefile.PL
 README
+bin/hipchat-send
 dist.ini
 lib/WebService/HipChat.pm
 t/00-compile.t
