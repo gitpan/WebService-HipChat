@@ -25,4 +25,4 @@ requires:
   WebService::BaseClientRole: 0.0004
   strict: 0
   warnings: 0
-version: 0.0200
+version: 0.0201
