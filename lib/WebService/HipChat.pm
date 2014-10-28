@@ -2,7 +2,7 @@ package WebService::HipChat;
 use Moo;
 with 'WebService::BaseClientRole';
 
-our $VERSION = '0.0300'; # VERSION
+our $VERSION = '0.0301'; # VERSION
 
 use Carp qw(croak);
 
@@ -127,7 +127,8 @@ sub get_emoticon {
 sub next {
     my ($self, $data) = @_;
     croak '$data is required' unless 'HASH' eq ref $data;
-    return $self->get($data->{links}{next});
+    my $next = $data->{links}{next} or return undef;
+    return $self->get($next);
 }
 
 
@@ -145,7 +146,7 @@ WebService::HipChat
 
 =head1 VERSION
 
-version 0.0300
+version 0.0301
 
 =head1 SYNOPSIS
 
