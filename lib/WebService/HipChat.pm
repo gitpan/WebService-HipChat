@@ -2,7 +2,7 @@ package WebService::HipChat;
 use Moo;
 with 'WebService::BaseClientRole';
 
-our $VERSION = '0.0201'; # VERSION
+our $VERSION = '0.0300'; # VERSION
 
 use Carp qw(croak);
 
@@ -124,6 +124,12 @@ sub get_emoticon {
     return $self->get("/emoticon/$emoticon");
 }
 
+sub next {
+    my ($self, $data) = @_;
+    croak '$data is required' unless 'HASH' eq ref $data;
+    return $self->get($data->{links}{next});
+}
+
 
 1;
 
@@ -139,7 +145,7 @@ WebService::HipChat
 
 =head1 VERSION
 
-version 0.0201
+version 0.0300
 
 =head1 SYNOPSIS
 
@@ -149,8 +155,7 @@ version 0.0201
     # get paged results:
     my $res = $hc->get_emoticons;
     my @emoticons = @{ $res->{items} };
-    while (my $next_link = $res->{links}{next}) {
-        $res = $hc->get($next_link);
+    while ($res = $hc->next($res)) {
         push @emoticons, @{ $res->{items} };
     }
 
@@ -437,6 +442,20 @@ Example response:
       shortcut => "dog",
       url => "https://hipchat.com/files/img/emoticons/1/dog.png",
       width => 30,
+    }
+
+=head2 next
+
+    next($data)
+
+Returns the next page of data for paginated responses.
+
+Example:
+
+    my $res = $hc->get_emoticons;
+    my @emoticons = @{ $res->{items} };
+    while ($res = $hc->next($res)) {
+        push @emoticons, @{ $res->{items} };
     }
 
 =head1 AUTHOR
