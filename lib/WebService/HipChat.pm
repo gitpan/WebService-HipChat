@@ -2,7 +2,7 @@ package WebService::HipChat;
 use Moo;
 with 'WebService::BaseClientRole';
 
-our $VERSION = '0.0400'; # VERSION
+our $VERSION = '0.0401'; # VERSION
 
 use Carp qw(croak);
 
@@ -146,7 +146,7 @@ WebService::HipChat
 
 =head1 VERSION
 
-version 0.0400
+version 0.0401
 
 =head1 SYNOPSIS
 
@@ -347,7 +347,7 @@ Removes a user from a room.
 =head2 get_users
 
     get_users()
-    get_users($room, query => { 'start-index' => 0, 'max-results' => 100 });
+    get_users(query => { 'start-index' => 0, 'max-results' => 100 });
 
 Example response:
 
