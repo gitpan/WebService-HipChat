@@ -22,7 +22,8 @@ requires:
   Getopt::Long: 0
   Moo: 1.005000
   Pod::Usage: 0
-  WebService::BaseClientRole: 0.0004
+  WebService::BaseClientRole: 0
+  WebService::Client: 0.0100
   strict: 0
   warnings: 0
-version: 0.0401
+version: 0.0402

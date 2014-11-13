@@ -2,7 +2,7 @@ package WebService::HipChat;
 use Moo;
 with 'WebService::BaseClientRole';
 
-our $VERSION = '0.0401'; # VERSION
+our $VERSION = '0.0402'; # VERSION
 
 use Carp qw(croak);
 
@@ -146,7 +146,7 @@ WebService::HipChat
 
 =head1 VERSION
 
-version 0.0401
+version 0.0402
 
 =head1 SYNOPSIS
 
