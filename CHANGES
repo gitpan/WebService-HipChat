@@ -3,7 +3,37 @@ Changes from 2004-11-15 00:00:00 +0000 to present.
 ==================================================
 
 -------------------------------------------
-version 0.0402 at 2014-11-13 08:03:43 +0000
+version 0.0500 at 2014-11-13 16:26:50 +0000
+-------------------------------------------
+
+  Change: 5714e0c68a9b099906d82cf6fa1e709944f7bc2a
+  Author: Naveed Massjouni <naveedm9@gmail.com>
+  Date : 2014-11-13 11:25:34 +0000
+
+    v0.0500 
+
+  Change: 6ee488da01b74a050f062fc43d14655bafe7f0f9
+  Author: Naveed Massjouni <naveedm9@gmail.com>
+  Date : 2014-11-13 11:23:41 +0000
+
+    Merge pull request #3 from chrisspang/master
+
+    Switch to WebService::Client 
+
+  Change: ba31f78d963ac19d0e1b07f66379dfc4f22c23de
+  Author: Chris Hughes <chris@lokku.com>
+  Date : 2014-11-13 11:09:20 +0000
+
+    Added share_link() get_room_history() 
+
+  Change: 1901fb36d133f1de4496fa4745b5121d2a344db9
+  Author: Chris Hughes <chris@lokku.com>
+  Date : 2014-11-13 10:34:14 +0000
+
+    Switch to WebService::Client 
+
+-------------------------------------------
+version 0.0402 at 2014-11-13 08:01:30 +0000
 -------------------------------------------
 
   Change: 1030abbb8feb155cf869e91a3523f98bbe0af56d
