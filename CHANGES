@@ -1,9 +1,47 @@
 ==================================================
-Changes from 2004-11-15 00:00:00 +0000 to present.
+Changes from 2004-11-23 00:00:00 +0000 to present.
 ==================================================
 
 -------------------------------------------
-version 0.0500 at 2014-11-13 16:26:50 +0000
+version 0.0600 at 2014-11-21 19:08:33 +0000
+-------------------------------------------
+
+  Change: d932b4437663b4ae22418c4210b23214ea9cc8d2
+  Author: Naveed Massjouni <naveedm9@gmail.com>
+  Date : 2014-11-21 14:07:03 +0000
+
+    v0.0600 added Chris Hughes to CONTRIBUTORS 
+
+  Change: 78bca094696c62f0a9dc5ce85dd0d99072c701f5
+  Author: Naveed Massjouni <naveedm9@gmail.com>
+  Date : 2014-11-21 13:56:56 +0000
+
+    Merge pull request #6 from chrisspang/master
+
+    Use WebService::Client new features to build request 
+
+  Change: f0624ec9f3b9273a08d4f7b48a186658d8e9bb78
+  Author: Chris Hughes <chris@lokku.com>
+  Date : 2014-11-20 13:45:51 +0000
+
+    Use WebService::Client new features to build request 
+
+  Change: 41981e629a5be2cd752c3d9e203829e29d16ddf8
+  Author: Naveed Massjouni <naveedm9@gmail.com>
+  Date : 2014-11-17 14:30:02 +0000
+
+    Merge pull request #4 from chrisspang/master
+
+    Add share_file() 
+
+  Change: 196cc1d3d2d7b3d8cf5bd196fd2d66283a146ceb
+  Author: Chris Hughes <chris@lokku.com>
+  Date : 2014-11-14 12:26:44 +0000
+
+    Add share_file() 
+
+-------------------------------------------
+version 0.0500 at 2014-11-13 16:25:34 +0000
 -------------------------------------------
 
   Change: 5714e0c68a9b099906d82cf6fa1e709944f7bc2a

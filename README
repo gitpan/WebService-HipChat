@@ -4,7 +4,7 @@ NAME
 
 VERSION
 
-    version 0.0500
+    version 0.0600
 
 SYNOPSIS
 
@@ -359,6 +359,10 @@ METHODS
 
         $hc->share_link($room, { message => 'msg', link => 'http://www.sun.com' });
 
+ share_file
+
+        $hc->share_file($room, { message => 'msg', file => '/tmp/file.png' });
+
  next
 
         next($data)
@@ -372,6 +376,10 @@ METHODS
         while ($res = $hc->next($res)) {
             push @emoticons, @{ $res->{items} };
         }
+
+CONTRIBUTORS
+
+    Chris Hughes <chris@lokku.com>
 
 AUTHOR
 

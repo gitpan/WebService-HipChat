@@ -2,9 +2,11 @@ package WebService::HipChat;
 use Moo;
 with 'WebService::Client';
 
-our $VERSION = '0.0500'; # VERSION
+our $VERSION = '0.0600'; # VERSION
 
 use Carp qw(croak);
+use MIME::Entity;
+use JSON qw(encode_json);
 
 has auth_token => ( is => 'ro', required => 1 );
 
@@ -144,6 +146,52 @@ sub next {
     return $self->get($next);
 }
 
+sub share_file {
+    my ($self, $room, $data) = @_;
+    croak '$room is required' unless $room;
+    croak '$data is required' unless 'HASH' eq ref $data;
+
+    my $path = $self->_url("/room/$room/share/file");
+
+    my $msg       = $data->{message};
+    my $file      = $data->{file};
+
+    if (! -f $file) {
+        warn "File '$file' doesn't exist\n";
+        return;
+    }
+
+    my $boundary = 'boundary1234567890';
+
+    my $Mime = MIME::Entity->build(
+        Type     => 'multipart/related',
+        Boundary => $boundary,
+    );
+
+    if ( $msg ) {
+        my $msg_json = encode_json({ message => $msg });
+        $Mime->attach(
+            Type     => 'application/json',
+            Encoding => '7bit',
+            Data     => $msg_json,
+        );
+    }
+
+    $Mime->attach(
+        Path        => $file,
+        Disposition => 'attachment; name="file"'
+    );
+
+    $Mime->make_multipart();
+
+    return $self->post("/room/$room/share/file",
+        $Mime->stringify_body(),
+        headers => {
+            'content_type' => "multipart/related; boundary=\"$boundary\"",
+        },
+    );
+}
+
 
 1;
 
@@ -159,7 +207,7 @@ WebService::HipChat
 
 =head1 VERSION
 
-version 0.0500
+version 0.0600
 
 =head1 SYNOPSIS
 
@@ -514,6 +562,10 @@ Example response:
 
     $hc->share_link($room, { message => 'msg', link => 'http://www.sun.com' });
 
+=head2 share_file
+
+    $hc->share_file($room, { message => 'msg', file => '/tmp/file.png' });
+
 =head2 next
 
     next($data)
@@ -527,6 +579,14 @@ Example:
     while ($res = $hc->next($res)) {
         push @emoticons, @{ $res->{items} };
     }
+
+=head1 CONTRIBUTORS
+
+=over
+
+=item Chris Hughes <chris@lokku.com>
+
+=back
 
 =head1 AUTHOR
 
