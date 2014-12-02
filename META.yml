@@ -24,7 +24,7 @@ requires:
   MIME::Entity: 0
   Moo: 1.005000
   Pod::Usage: 0
-  WebService::Client: 0.0100
+  WebService::Client: 0.0203
   strict: 0
   warnings: 0
-version: 0.0600
+version: 0.0601
